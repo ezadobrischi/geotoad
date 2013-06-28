@@ -235,7 +235,7 @@ class GeoToad
       return nil
     end
 
-    url = "http://code.google.com/p/geotoad/wiki/CurrentVersion"
+    url = "http://code.google.com/p/geotoad/wiki/CurrentDevelVersion"
 
     debug "Checking for latest version of GeoToad from #{url}"
     version = ShadowFetch.new(url)
@@ -249,8 +249,8 @@ class GeoToad
 
       if comparableVersion(latestVersion) > comparableVersion($VERSION)
         puts "------------------------------------------------------------------------"
-        puts "* NOTE: GeoToad #{latestVersion} is now available!"
-        puts "* Download from http://code.google.com/p/geotoad/downloads/list"
+        puts "* NOTE: GeoToad development version #{latestVersion} is now available!"
+        puts "* Download from http://code.google.com/p/geotoad/downloads/list?can=1"
         puts "------------------------------------------------------------------------"
         version.data.scan(/\<div .*? id="wikimaincol"\>\s*(.*?)\s*\<\/div\>/m) do |notes|
           text = notes[0].dup
@@ -944,10 +944,12 @@ end
 exit if Object.const_defined?(:Ocra)
 
 ###### MAIN ACTIVITY ###############################################################
+# have some output before initializing the GeoToad, Output, Template classes
+include Messages
+displayTitleMessage "GeoToad #{$VERSION} (#{RUBY_PLATFORM}-#{RUBY_VERSION})"
+displayInfo "Report bugs or suggestions at http://code.google.com/p/geotoad/issues/"
+displayInfo "Please include verbose output (-v) without passwords in the bug report."
 cli = GeoToad.new
-cli.displayTitleMessage "GeoToad #{$VERSION} (#{RUBY_PLATFORM}-#{RUBY_VERSION})"
-cli.displayInfo "Report bugs or suggestions at http://code.google.com/p/geotoad/issues/"
-cli.displayInfo "Please include verbose output (-v) without passwords in the bug report."
 cli.versionCheck
 puts
 
